@@ -1,0 +1,45 @@
+<IfModule mod_mime.c>
+  <FilesMatch "\.json\.gz$">
+    ForceType 'application/json; charset=UTF-8'
+    FileETag None
+  </FilesMatch>
+  AddEncoding gzip .gz
+  AddType application/json .gz
+
+  <FilesMatch "\.xml\.gz$">
+    ForceType 'text/xml; charset=UTF-8'
+    FileETag None
+  </FilesMatch>
+  AddEncoding gzip .gz
+  AddType text/xml .gz
+
+  <FilesMatch "\.csv\.gz$">
+    ForceType 'application/csv; charset=UTF-8'
+    FileETag None
+  </FilesMatch>
+  AddEncoding gzip .gz
+  AddType application/csv .gz
+
+</IfModule>
+<IfModule mod_deflate.c>
+  SetEnvIfNoCase Request_URI \.gz$ no-gzip
+</IfModule>
+<IfModule mod_headers.c>
+  Header set Vary "Accept-Encoding, Cookie"
+  Header set Cache-Control 'max-age=300, must-revalidate'
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType application/json "modification plus 7 days"
+  ExpiresByType application/csv "modification plus 7 days"
+  ExpiresByType application/xml "modification plus 7 days"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+Options +FollowSymlinks
+RewriteEngine On
+RewriteBase /data
+RewriteCond %{HTTP:Accept-Encoding} gzip
+RewriteRule (.*)(\.json|\.xml|\.csv)$ gz/$1$2\.gz [L]
+
+</IfModule>

@@ -1,0 +1,1 @@
+This is the code I use to extract, fix and transform the open data of the Buglarian parliament. The data there is unfortunaltely not indexed and often is not valid xml. This script downloads all the MP, absense and bill data. Documenation is not available yet. Future optimization will include server load reduction, load arguments, cron job optimization and better visualization.
