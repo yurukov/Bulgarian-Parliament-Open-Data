@@ -1,1 +1,9 @@
 This is the code I use to extract, fix and transform the open data of the Buglarian parliament. The data there is unfortunaltely not indexed and often is not valid xml. This script downloads all the MP, absense and bill data. Documenation is not available yet. Future optimization will include server load reduction, load arguments, cron job optimization and better visualization.
+
+The data included is as follows:
+- MP profiles including absenses and consultants
+- MP Absenses sorted by data and by MP
+- Consultants for MPs, parliament groups and parliament committees
+- Data on bills - laws, law propositions, decisions and official declarations.
+
+All these are remixed and linked. There is a number of lists that link to individual MP profiles or bill files. These lists are sorted in various ways. Please rever to index.html for a general guide.
