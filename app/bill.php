@@ -1,22 +1,20 @@
 <?php
 
 function transformAllBills() {
-	set_time_limit(3000);
+	set_time_limit(9000);
 	$list = getBillIds();
 	echo "Found data on ".count($list)." bills. <br/>";
 
 	echo "Transforming...<br/>";
 	$map=array();
 	foreach ($list as $id) {
-		$transformed = transform("xsl/bill.xsl",getRawFile("bill/bill_$id.xml"), array("id"=>$id));
-		storeModelFile("bill/bill_$id.xml",$transformed);
+		$transformed = transformBillorReturn($id);
 
 		preg_match_all("/<Signature>(.*)<\/Signature>/im",$transformed,$matches);
 		if (!($matches==null || count($matches)<2 || count($matches[1])<1))
 			$map[]=$matches[1][0]."\t$id";
 
 		unset($transformed);
-		echo ". ";
 	} 
 	echo "<br/>";
 
@@ -27,8 +25,21 @@ function transformAllBills() {
 	echo "Bill data transformed.<br/>";
 }
 
+function transformBillorReturn($id) {
+	if (isChanged("bill/bill_$id.xml")) {
+		$transformed = transform("xsl/bill.xsl",getRawFile("bill/bill_$id.xml"), array("id"=>$id));
+		storeModelFile("bill/bill_$id.xml",$transformed);
+		echo ". ";
+		return $transformed;
+	} else {
+		echo "~ ";	
+		return getModelFile("bill/bill_$id.xml");
+	}
+}
+
 function aggregateBills() {
-	set_time_limit(3000);
+	set_time_limit(9000);
+	
 	$list = getBillIds();
 	echo "Found data on ".count($list)." bills. <br/>";
 
@@ -40,6 +51,8 @@ function aggregateBills() {
 	echo "Merging...<br/>";
 	foreach ($list as $id) {
 		$billXml = getModelFile("bill/bill_$id.xml");
+		if ($billXml=="")
+			echo $id;
 		$billD = new DOMDocument('1.0', 'utf-8');
 		$billD->loadXML($billXml, LIBXML_NOWARNING | LIBXML_NOERROR);
 		$bill = $billD->firstChild;
@@ -69,7 +82,7 @@ function aggregateBills() {
 }
 
 function loadAllBills() {
-	set_time_limit(3000);
+	set_time_limit(9000);
 	echo "Loading max bill ids in current parliament... <br/>";
 
 	$maxId = getMaxBillId();
@@ -79,7 +92,7 @@ function loadAllBills() {
 	echo "Loading bills... <br/>";
 	$i=0;
 	$minId=-1;
-	for ($id=5167; $id<=$maxId; $id++)
+	for ($id=5167; $id<=$maxId; $id++) {
 		if ($id>5230 && $id<8311) {
 			$id+=3080;
 			continue;
@@ -90,6 +103,7 @@ function loadAllBills() {
 				$minId=$id;
 			$i++;
 		}
+	}
 	echo "<br/>";
 
 	echo "Loaded $i out of $maxId. Min bill id is $minId.<br/>";
@@ -105,12 +119,10 @@ function loadAllBills() {
 function getBillIds() {
 	global $datafolder;
 	$list = glob("$datafolder/raw/bill/bill*.xml");
-	$res = array();
 	for ($i=0;$i<count($list);$i++)
-		if (isChanged(substr($list[$i],strlen("$datafolder/raw/"))))
-			$res[]=substr($list[$i],strlen("$datafolder/raw/bill/bill_"),-4);
-	sort($res);
-	return $res;
+		$list[$i]=substr($list[$i],strlen("$datafolder/raw/bill/bill_"),-4);
+	sort($list);
+	return $list;
 }
 
 function getMaxBillId() {

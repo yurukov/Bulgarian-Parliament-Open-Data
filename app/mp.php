@@ -15,9 +15,7 @@ function transformAllMPs() {
 	$map=array();
 	foreach ($list as $id) {
 		$is_current=in_array($id,$currentmpIds);
-		$otherIds = implode(",",getOtherMPIds($id));
-		$transformed = transform("xsl/mp.xsl",getRawFile("mp/mp_$id.xml"), array("id"=>$id, "current"=>$is_current, "otherids"=> $otherIds));
-		storeModelFile("mp/mp_$id.xml",$transformed);
+		$transformed = transformMPorReturn($id, $is_current);
 
 		$transformed = substr($transformed, strlen('<?xml version="1.0" encoding="UTF-8"?>')+1);
 		$all .= $transformed;
@@ -32,9 +30,10 @@ function transformAllMPs() {
 		}
 		$map[]=$matches[1][0]."\t$id\t".($is_current?1:0);
 
+		unset($is_current);
 		unset($transformed);
 		unset($matches);
-		echo ". ";
+		
 	}
 	echo "<br/>";
 
@@ -60,6 +59,20 @@ function transformAllMPs() {
 	unset($current);
 }
 
+function transformMPorReturn($id, $is_current) {
+	if (isChanged("mp/mp_$id.xml")) {
+		$otherIds = implode(",",getOtherMPIds($id));
+		$transformed = transform("xsl/mp.xsl",getRawFile("mp/mp_$id.xml"), array("id"=>$id, "current"=>$is_current, "otherids"=> $otherIds));
+		storeModelFile("mp/mp_$id.xml",$transformed);
+		echo ". ";
+		unset($otherIds);
+		return $transformed;
+	} else {
+		echo "~ ";	
+		return getModelFile("mp/mp_$id.xml");
+	}
+}
+
 function loadAllMPs() {
 	set_time_limit(3000);
 	echo "Loading MP ids in current parliament... <br/>";
@@ -82,7 +95,7 @@ function loadAllMPs() {
 			$i++;
 	echo "<br/>";
 
-	echo "Loaded $i out of $maxId.<br/>";
+	echo "Loaded $i out of $maxId MPs.<br/>";
 	unset($all);
 }
 
@@ -95,8 +108,6 @@ function loadCurrentMPs() {
 	if ($mpIds===false)
 		return;
 
-	echo "Found MPs in current parliament: ".count($mpIds)." <br/>";
-
 	echo "Loading MP data... <br/>";
 	$i=0;
 	foreach($mpIds as $id)
@@ -104,7 +115,7 @@ function loadCurrentMPs() {
 			$i++;
 	echo "<br/>";
 
-	echo "Loaded $i out of $maxId.<br/>";
+	echo "Loaded $i MPs.<br/>";
 	unset($mpIds);
 }
 

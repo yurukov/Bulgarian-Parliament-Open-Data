@@ -40,6 +40,7 @@ Options +FollowSymlinks
 RewriteEngine On
 RewriteBase /data
 RewriteCond %{HTTP:Accept-Encoding} gzip
-RewriteRule (.*)(\.json|\.xml|\.csv)$ gz/$1$2\.gz [L]
+RewriteRule (model|raw)?(.*)(\.json|\.xml|\.csv)$ gz/$2$3\.gz
+RewriteRule data\.zip$ gz/data\.zip [L]
 
 </IfModule>

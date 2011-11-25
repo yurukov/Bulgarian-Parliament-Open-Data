@@ -8,14 +8,12 @@ function transformAllAbsense() {
 
 	echo "Transforming absenses for ".count($list)." months.<br/>";
 	foreach ($list as $date) {
-		$transformed = transform("xsl/absense.xsl",getRawFile("absense/absense_$date.xml"));
-		storeModelFile("absense/absense_$date.xml",$transformed);
+		$transformed = transformAbsenseorReturn($date);
 
 		$transformed = substr($transformed, strlen('<?xml version="1.0" encoding="UTF-8"?>')+1);
 		$all .= $transformed;
 
 		unset($transformed);
-		echo ". ";
 	}	
 	echo "<br/>";
 
@@ -34,6 +32,18 @@ function transformAllAbsense() {
 	echo "Absense data transformed.<br/>";
 	unset($all);
 	unset($current);
+}
+
+function transformAbsenseorReturn($date) {
+	if (isChanged("absense/absense_$date.xml")) {
+		$transformed = transform("xsl/absense.xsl",getRawFile("absense/absense_$date.xml"));
+		storeModelFile("absense/absense_$date.xml",$transformed);
+		echo ". ";
+		return $transformed;
+	} else {
+		echo "~ ";	
+		return getModelFile("absense/absense_$date.xml");
+	}
 }
 
 function updateMPwithAbsense() {

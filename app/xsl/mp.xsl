@@ -39,7 +39,7 @@
 			<xsl:apply-templates select="@*|node()" />
 			<ProfileUrl><xsl:value-of select="concat('http://www.parliament.bg/bg/MP/',$id)"/></ProfileUrl>
 			<OriginalDataUrl><xsl:value-of select="concat('http://parliament.bg/export.php/bg/xml/MP/',$id)"/></OriginalDataUrl>
-			<DataUrl><xsl:value-of select="concat('http://parliament.yurukov.net/mp/mp_',$id,'.xml')"/></DataUrl>
+			<DataUrl><xsl:value-of select="concat('http://parliament.yurukov.net/data/mp/mp_',$id,'.xml')"/></DataUrl>
 			<Photo>
 				<Photo_big><xsl:value-of select="concat('http://parliament.bg/images/Assembly/',$id,'.png')"/></Photo_big>
 				<Photo_thumb><xsl:value-of select="concat('http://parliament.bg/images/Assembly/_thumb.',$id,'.png')"/></Photo_thumb>
