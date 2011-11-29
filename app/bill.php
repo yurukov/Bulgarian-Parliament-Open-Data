@@ -116,6 +116,14 @@ function loadAllBills() {
 	UTILS
 */
 
+function setBillUnchangable($id) {
+	setUnchangable("bill/bill_$id.xml");
+}
+
+function isBillChangable($id) {
+	return isChangable("bill/bill_$id.xml");
+}
+
 function getBillIds() {
 	global $datafolder;
 	$list = glob("$datafolder/raw/bill/bill*.xml");

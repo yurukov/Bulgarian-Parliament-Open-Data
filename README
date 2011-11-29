@@ -5,5 +5,7 @@ The data included is as follows:
 - MP Absenses sorted by data and by MP
 - Consultants for MPs, parliament groups and parliament committees
 - Data on bills - laws, law propositions, decisions and official declarations.
+- Parliament groups - members, proposed bills, changes of members over time
+- Parliament committees - members, discussed bills, documents, changes of members over time
 
 All these are remixed and linked. There is a number of lists that link to individual MP profiles or bill files. These lists are sorted in various ways. Please rever to index.html for a general guide.

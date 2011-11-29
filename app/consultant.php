@@ -33,12 +33,11 @@ function updateMPwithConsultants() {
 	$xpath = new DOMXPath($consultantD);
 
 	echo "Updating MP data with consultants. <br/>";
-	$mps = $xpath->query('//MP');
+	$mpsC = $xpath->query('//Consultants');
 
-	echo "Found consultants for ".$mps->length." MPs. Updating... <br/>";
-	foreach ($mps as $mp) {
-		$id = $mp->getAttribute("id");
-		$consultants = $mp->lastChild->previousSibling;
+	echo "Found consultants for ".$mpsC->length." MPs. Updating... <br/>";
+	foreach ($mpsC as $consultants) {
+		$id = $consultants->parentNode->getAttribute("id");
 
 		$mpXml = getModelFile("mp/mp_$id.xml");
 		$mpD = new DOMDocument('1.0', 'utf-8');
@@ -56,6 +55,90 @@ function updateMPwithConsultants() {
 	
 		$mpXml = $mpD->saveXML();
 		storeModelFile("mp/mp_$id.xml",$mpXml);
+		echo ". ";
+
+		unset($id);
+		unset($mpXml);
+		unset($mpD);
+		unset($xpath1);
+		unset($consultantsNew);
+	}
+	echo "<br/>";
+	echo "Updated. <br/>";
+}
+
+function updatePGroupwithConsultants() {
+	set_time_limit(3000);
+	$consultantXml = getModelFile("consultant/consultant_pgroup.xml");
+	$consultantD = new DOMDocument('1.0', 'utf-8');
+	$consultantD->loadXML($consultantXml, LIBXML_NOWARNING | LIBXML_NOERROR);
+	$xpath = new DOMXPath($consultantD);
+
+	echo "Updating PGroup data with consultants. <br/>";
+	$pgroupC = $xpath->query('//Consultants');
+
+	echo "Found consultants for ".$pgroupC->length." groups. Updating... <br/>";
+	foreach ($pgroupC as $consultants) {
+		$id = $consultants->parentNode->getAttribute("id");
+
+		$mpXml = getModelFile("pgroup/pgroup_$id.xml");
+		$mpD = new DOMDocument('1.0', 'utf-8');
+		$mpD->loadXML($mpXml, LIBXML_NOWARNING | LIBXML_NOERROR);
+		$mpD->formatOutput=true;
+		$xpath1 = new DOMXPath($mpD);
+
+		$oldConsultants = $xpath1->query('//Consultants');
+		foreach ($oldConsultants as $oldConsultantsNode)
+			$oldConsultantsNode->parentNode->removeChild($oldConsultantsNode);
+		
+		$paNode = $xpath1->query('//Bills');
+		$consultantsNew = $mpD->importNode($consultants, true);
+		$paNode->item(0)->parentNode->insertBefore($consultantsNew, $paNode->item(0));
+	
+		$mpXml = $mpD->saveXML();
+		storeModelFile("pgroup/pgroup_$id.xml",$mpXml);
+		echo ". ";
+
+		unset($id);
+		unset($mpXml);
+		unset($mpD);
+		unset($xpath1);
+		unset($consultantsNew);
+	}
+	echo "<br/>";
+	echo "Updated. <br/>";
+}
+
+function updatePCommwithConsultants() {
+	set_time_limit(3000);
+	$consultantXml = getModelFile("consultant/consultant_pcommittee.xml");
+	$consultantD = new DOMDocument('1.0', 'utf-8');
+	$consultantD->loadXML($consultantXml, LIBXML_NOWARNING | LIBXML_NOERROR);
+	$xpath = new DOMXPath($consultantD);
+
+	echo "Updating PComm data with consultants. <br/>";
+	$pgroupC = $xpath->query('//Consultants');
+
+	echo "Found consultants for ".$pgroupC->length." groups. Updating... <br/>";
+	foreach ($pgroupC as $consultants) {
+		$id = $consultants->parentNode->getAttribute("id");
+
+		$mpXml = getModelFile("pcomm/pcomm_$id.xml");
+		$mpD = new DOMDocument('1.0', 'utf-8');
+		$mpD->loadXML($mpXml, LIBXML_NOWARNING | LIBXML_NOERROR);
+		$mpD->formatOutput=true;
+		$xpath1 = new DOMXPath($mpD);
+
+		$oldConsultants = $xpath1->query('//Consultants');
+		foreach ($oldConsultants as $oldConsultantsNode)
+			$oldConsultantsNode->parentNode->removeChild($oldConsultantsNode);
+		
+		$paNode = $xpath1->query('//Documents');
+		$consultantsNew = $mpD->importNode($consultants, true);
+		$paNode->item(0)->parentNode->insertBefore($consultantsNew, $paNode->item(0));
+	
+		$mpXml = $mpD->saveXML();
+		storeModelFile("pcomm/pcomm_$id.xml",$mpXml);
 		echo ". ";
 
 		unset($id);

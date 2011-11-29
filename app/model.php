@@ -1,9 +1,11 @@
 <?php
 
+$_changeable=array();
+
 function fixXML($data) {
 	$data = str_replace("<?xml version=\"1.0\" ?>","<?xml version=\"1.0\" encoding=\"UTF-8\" ?> ",$data);
 	$data = preg_replace('/(="[^"><=]*?)"([^"><=]*?)"([^"><=]*?")/im','$1\'$2\'$3',$data);
-	$data = preg_replace('/(?<!=)"(?!(\s|\/))/im','&quot;',$data);
+	$data = preg_replace('/(?<!=)(?<!=)"(?!(\s|\/?>|[^>]*?<))/im','&quot;',$data);
 	return $data;
 }
 
@@ -13,6 +15,7 @@ function storeFile($name, $data) {
 }
 
 function storeRawFile($name, $data) {
+	$data = fixXML($data);
 	$olddata = getFile("raw/".$name);
 	if ($olddata===false || $olddata!=$data)
 		storeFile("raw/".$name, $data);
@@ -42,6 +45,29 @@ function isChanged($name) {
 		filectime("$datafolder/raw/$name")>filectime("$datafolder/gz/$name.gz"));
 }
 
+function isChangable($name) {
+	global $_changeable;
+	return !in_array($name,$_changeable);
+}
+
+function setUnchangable($name) {
+	global $_changeable;
+	if (isChangable($name))
+		$_changeable[]=$name;
+}
+
+function initChangable() {
+	global $datafolder,$_changeable;
+	if (file_exists("$datafolder/raw/unchangable.csv"))
+		$_changeable=file("$datafolder/raw/unchangable.csv", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+}
+
+function dumpChangable() {
+	global $datafolder,$_changeable;
+	file_put_contents("$datafolder/raw/unchangable.csv",implode("\n",$_changeable));
+	unset($_changeable);
+}
+
 function getFile($name) {
 	global $datafolder;
 	if (!file_exists("$datafolder/$name"))
@@ -50,7 +76,7 @@ function getFile($name) {
 }
 
 function getRawFile($name) {
-	return fixXML(getFile("raw/".$name));
+	return getFile("raw/".$name);
 }
 
 function getModelFile($name) {
@@ -77,7 +103,7 @@ function formatXMLNode($node) {
 		else
 			$textNodes[]=$subnode;
 	if (!$onlyText)
-		foreach ($textNodes as $textNode) 
+		foreach ($textNodes as $textNode)
 			$node->removeChild($textNode);		
 	foreach ($node->childNodes as $subnode)
 		formatXMLNode($subnode);

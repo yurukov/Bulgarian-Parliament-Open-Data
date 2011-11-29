@@ -54,12 +54,11 @@ function updateMPwithAbsense() {
 	$xpath = new DOMXPath($absenseD);
 
 	echo "Updating MP data with absense. <br/>";
-	$mps = $xpath->query('//MP');
+	$mpsA = $xpath->query('//Absense');
 
-	echo "Found absenses for ".$mps->length." MPs. Updating... <br/>";
-	foreach ($mps as $mp) {
-		$id = $mp->getAttribute("id");
-		$absense = $mp->lastChild;
+	echo "Found absenses for ".$mpsA->length." MPs. Updating... <br/>";
+	foreach ($mpsA as $absense) {
+		$id = $absense->parentNode->getAttribute("id");
 
 		$mpXml = getModelFile("mp/mp_$id.xml");
 		$mpD = new DOMDocument('1.0', 'utf-8');
@@ -93,12 +92,18 @@ function loadAllAbsense() {
 	set_time_limit(3000);
 	date_default_timezone_set("Europe/Sofia");
 	$date = date_create('now');
-	$failcount=3;
+	$failcount=4;
 	while ($failcount>0){
-		echo "Loading absenses for ".date_format($date,'F Y')."... ";
-		if (loadAbsense(date_format($date,'Y-m'))) {
+		$dateF=date_format($date,'Y-m');
+		echo "Loading absenses for $dateF... ";
+		if (!isAbsenseChangable($dateF)) {
+			echo "skip.<br/>";
+			$failcount--;
+		} else 
+		if (loadAbsense($dateF)) {
 			echo "done.<br/>";	
-			$failcount=3;
+			setAbsenseUnchangable($dateF);
+			$failcount=4;
 		} else {
 			$failcount--;
 			echo "failed.<br/>";	
@@ -110,6 +115,14 @@ function loadAllAbsense() {
 /*_________________
 	UTILS
 */
+
+function setAbsenseUnchangable($date) {
+	setUnchangable("absense/absense_$date.xml");
+}
+
+function isAbsenseChangable($date) {
+	return isChangable("absense/absense_$date.xml");
+}
 
 function getAbsense() {
 	global $datafolder;

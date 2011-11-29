@@ -6,9 +6,15 @@ require_once "mp.php";
 require_once "absense.php";
 require_once "bill.php";
 require_once "consultant.php";
+require_once "pgroup.php";
+require_once "pcomm.php";
 require_once "transform.php";
 
+echo "da, ama ne.<br/>";
+
 try {
+
+init();
 
 //loadAllMPs();
 //loadCurrentMPs();
@@ -18,15 +24,25 @@ try {
 //transformAllAbsense();
 //updateMPwithAbsense();
 
-//loadAllBills();
-//transformAllBills();
-//aggregateBills();
+//loadPGroups();
+//transformAllPGroups();
+
+//loadPComms();
+//transformAllPComms();
 
 //loadAllConsultants();
 //transformAllConsultants();
 //updateMPwithConsultants();
+//updatePGroupwithConsultants();
+//updatePCommwithConsultants();
+
+//loadAllBills();
+//transformAllBills();
+//aggregateBills();
 
 //packData();
+
+destroy();
 
 } catch (ErrorException $e) {
     echo "Error:".$e->getMessage();

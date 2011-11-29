@@ -1,25 +1,18 @@
 <?php
 ini_set('user_agent','Zashto taka be hora![yurukov.net]'); 
+set_error_handler('handleError');
 $datafolder="../data";
 $force_export=false;
-checkFolderStructure();
 
 function checkFolderStructure() {
-	checkFolder("raw");
-	checkFolder("raw/mp");
-	checkFolder("raw/absense");
-	checkFolder("raw/bill");
-	checkFolder("raw/consultant");
-	checkFolder("model");
-	checkFolder("model/mp");
-	checkFolder("model/absense");
-	checkFolder("model/bill");
-	checkFolder("model/consultant");
-	checkFolder("gz");
-	checkFolder("gz/mp");
-	checkFolder("gz/absense");
-	checkFolder("gz/bill");
-	checkFolder("gz/consultant");
+	$aspects = array("raw","model","gz");
+	$models = array("mp","absense","bill","consultant","pgroup","pcomm");
+
+	foreach ($aspects as $aspect) {
+		checkFolder($aspect);
+		foreach ($models as $model) 
+			checkFolder("$aspect/$model");
+	}
 }
 
 function checkFolder($path) {
@@ -38,6 +31,25 @@ function handleError($errno, $errstr, $errfile, $errline, array $errcontext)
 
     throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
-set_error_handler('handleError');
+
+function http_post ($url, $data)
+{
+    $data_url = http_build_query ($data);
+    $data_len = strlen ($data_url);
+
+    return file_get_contents ($url, false, stream_context_create (array ('http'=>array ('method'=>'POST'
+            , 'header'=>"Connection: close\r\nContent-Length: $data_len\r\nContent-type: application/x-www-form-urlencoded\r\n"
+            , 'content'=>$data_url
+            ))));
+}
+
+function init() {
+	checkFolderStructure();
+	initChangable();
+}
+
+function destroy() {
+	dumpChangable();
+}
 
 ?>

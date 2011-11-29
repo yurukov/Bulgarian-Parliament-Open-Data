@@ -23,12 +23,12 @@
 			<Absense>
 				<PlenarySittings>
 					<xsl:apply-templates select="//PlenarySittings/Date[MP/@id=$id]">
-						<xsl:sort select="@timestamp" data-type="text" order="ascending"/>
+						<xsl:sort select="concat(substring(@timestamp,7),'-',substring(@timestamp,4,2),'-',substring(@timestamp,1,2))" data-type="text" order="ascending"/>
 					</xsl:apply-templates>
 				</PlenarySittings>
 				<CommitteeMeetings>
 					<xsl:apply-templates select="//CommitteeMeetings/Date[MP/@id=$id]">
-						<xsl:sort select="@timestamp" data-type="text" order="ascending"/>
+						<xsl:sort select="concat(substring(@timestamp,7),'-',substring(@timestamp,4,2),'-',substring(@timestamp,1,2))" data-type="text" order="ascending"/>
 					</xsl:apply-templates>
 				</CommitteeMeetings>
 			</Absense>

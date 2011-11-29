@@ -16,12 +16,8 @@
 
 	<xsl:template match="Date">
 		<xsl:copy>
-			<xsl:variable name="timestamp" select="node()[position()=1]"/>
 			<xsl:attribute name="timestamp">
-				<xsl:value-of select="concat(substring($timestamp,7),'-',substring($timestamp,4,2),'-',substring($timestamp,1,2))"/>
-			</xsl:attribute>
-			<xsl:attribute name="original">
-				<xsl:value-of select="$timestamp"/>
+				<xsl:value-of select="node()[position()=1]"/>
 			</xsl:attribute>			
 			<xsl:apply-templates select="@*|node()[position()>1]" />
 		</xsl:copy>

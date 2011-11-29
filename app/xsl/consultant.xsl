@@ -7,7 +7,7 @@
 	<xsl:template match="table">
 		<ParliamentConsultants>
 			<xsl:apply-templates select="//td[@colspan='3']">
-				<!--xsl:sort select="a/@href" data-type="number" order="ascending"/-->
+				<xsl:sort select="a/@href" data-type="number" order="ascending"/>
 			</xsl:apply-templates>
 		</ParliamentConsultants>
 	</xsl:template>
