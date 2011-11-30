@@ -8,6 +8,9 @@ require_once "bill.php";
 require_once "consultant.php";
 require_once "pgroup.php";
 require_once "pcomm.php";
+require_once "pcommsit.php";
+require_once "pdeleg.php";
+require_once "pgfriend.php";
 require_once "transform.php";
 
 echo "da, ama ne.<br/>";
@@ -29,6 +32,15 @@ init();
 
 //loadPComms();
 //transformAllPComms();
+
+//loadPCommSits();
+//transformAllPCommSits();
+
+//loadPDeleg();
+//transformAllPDelegs();
+
+//loadPGFriend();
+//transformAllPGFriends();
 
 //loadAllConsultants();
 //transformAllConsultants();

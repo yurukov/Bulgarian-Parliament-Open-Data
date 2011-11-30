@@ -14,7 +14,7 @@
 			<xsl:attribute name="type">
 				<xsl:value-of select="type"/>
 			</xsl:attribute>
-			<xsl:attribute name="update">
+			<xsl:attribute name="lastUpdate">
 				<xsl:choose>
 					<xsl:when test="$date=''">
 						<xsl:value-of select="//update_max/@date"/>
@@ -30,6 +30,7 @@
 			<PCommName><xsl:value-of select="div[1]/div[@class='articletitle']"/></PCommName>
 			<ParliamentCommitteeUrl><xsl:value-of select="concat('http://parliament.yurukov.net/data/pcomm/pcomm_',$id,'.xml')"/></ParliamentCommitteeUrl>
 			<ProfileUrl><xsl:value-of select="concat('http://www.parliament.bg/bg/parliamentarycommittees/members/',$id)"/></ProfileUrl>
+			<SittingsUrl><xsl:value-of select="concat('http://parliament.yurukov.net/data/pcommsit/pcommsit_',$id,'.xml')"/></SittingsUrl>
 			<Contact>
 				<Email><xsl:value-of select="normalize-space(div[@type='info']/a)"/></Email>
 				<Address><xsl:value-of select="normalize-space(div[@type='info']/br[1]/following-sibling::node()[1])"/></Address>

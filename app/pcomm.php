@@ -50,7 +50,7 @@ function transformPCommorReturn($id) {
 		storeModelFile("pcomm/pcomm_$id.xml",$transformed,false);
 		echo ". ";
 
-		unset($otherIds);
+		unset($date);
 		return $transformed;
 	} else {
 		echo "~ ";	
@@ -241,45 +241,6 @@ function loadPCommBills($id) {
 	echo ". ";
 	return $data;
 }
-
-/*
-function loadPCommReports($id) {
-	$url = "http://www.parliament.bg/bg/parliamentarycommittees/members/$id/reports";
-	$data = file_get_contents($url);
-	preg_match_all("_reports/period/(.*?)\"_ism",$data,$matches);
-	if (count($matches)!=2)
-		return "";
-	
-	$res=array();
-	foreach ($matches[1] as $reportPeriod) {
-		$url = "http://www.parliament.bg/bg/parliamentarycommittees/members/$id/reports/period/$reportPeriod";
-		$data = file_get_contents($url);
-		preg_match_all("_/reports/ID/(.*?)\">.*?</a>,\s(.*?)</li>_ism",$data,$matches1);
-		unset($data);
-		if (count($matches1)!=3)
-			continue;
-		for ($i=0;$i<count($matches1[1]);$i++) {
-			$reportId = $matches1[1][$i];
-			$reportDate = $matches1[2][$i];
-			$url = "http://www.parliament.bg/bg/parliamentarycommittees/members/$id/reports/ID/$reportId";
-			$data = file_get_contents($url);
-			preg_match("_<div class=\"markcontent\">.*?<br />\s*(.*?)\s*<hr\s/>_is",$data,$matches2);
-			if (count($matches2)==2) {
-				$res[]=array($reportId,$reportDate,"Доклад ".$matches2[1]);
-				echo ". ";
-			}
-			unset($data);
-			unset($matches2);
-		}
-		unset($matches1);
-	}
-
-	$resXml="";
-	foreach ($res as $r)
-		$resXml.="<report id='${r[0]}' date='${r[1]}'>${r[2]}</report>";
-	return "<reports>$resXml</reports>";
-}
-*/
 
 function loadPCommMembersDate($id,$date=false) {
 	$url = "http://www.parliament.bg/bg/parliamentarycommittees/members/$id";

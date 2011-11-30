@@ -4,10 +4,10 @@
 
 	<xsl:param name="date"/>
 
-	<xsl:variable name="id" select="substring(/Group/div[1]/div/form/@action,33)"/>
+	<xsl:variable name="id" select="substring-after(/Deleg/div[1]/div/form/@action,'members/')"/>
 
-	<xsl:template match="/Group">
-		<ParliamentGroup>
+	<xsl:template match="/Deleg">
+		<ParliamentDelegation>
 			<xsl:attribute name="id">
 				<xsl:value-of select="$id"/>
 			</xsl:attribute>
@@ -24,23 +24,20 @@
 			<xsl:if test="$date=''">
 				<xsl:attribute name="active">1</xsl:attribute>
 			</xsl:if>
-			<PGroupName><xsl:value-of select="div[1]/div[@class='articletitle']"/></PGroupName>
-			<ParliamentGroupUrl><xsl:value-of select="concat('http://parliament.yurukov.net/data/pgroup/pgroup_',$id,'.xml')"/></ParliamentGroupUrl>
-			<ProfileUrl><xsl:value-of select="concat('http://www.parliament.bg/bg/parliamentarygroups/members/',$id)"/></ProfileUrl>
+			<PDelegationName><xsl:value-of select="div[1]/div[@class='articletitle']"/></PDelegationName>
+			<ParliamentDelegationUrl><xsl:value-of select="concat('http://parliament.yurukov.net/data/pdeleg/pdeleg_',$id,'.xml')"/></ParliamentDelegationUrl>
+			<ProfileUrl><xsl:value-of select="concat('http://www.parliament.bg/bg/parliamentarydelegations/members/',$id)"/></ProfileUrl>
 			<Members>
 				<xsl:apply-templates select="div[1]/div[@class='MPBlock']">
 					<xsl:sort select="div/a/img/@alt" data-type="text" order="ascending"/>
 				</xsl:apply-templates>
 			</Members>
-			<Bills>
-				<xsl:apply-templates select="div[@type='bills']/div[@class='MProw']"/>
-			</Bills>
 			<Updates>
 				<xsl:apply-templates select="//update[not($date=@date or ($date='' and //update_max/@date=@date))]">
 					<xsl:sort select="concat(substring(@date,7),'-',substring(@date,4,2),'-',substring(@date,1,2))" data-type="text" order="descending"/>
 				</xsl:apply-templates>
 			</Updates>
-		</ParliamentGroup>
+		</ParliamentDelegation>
 	</xsl:template>
 
 	<xsl:template match="div[@class='MPBlock']">
@@ -73,29 +70,17 @@
 				<xsl:value-of select="@date"/>
 			</xsl:attribute>
 			<xsl:variable name="date-file" select="concat(substring(@date,1,2),'.',substring(@date,4,2),'.',substring(@date,7))"/>
-			<ParliamentGroupUpdateUrl>
+			<ParliamentDelegationUpdateUrl>
 				<xsl:choose>
 					<xsl:when test="@date=//update_max/@date">
-						<xsl:value-of select="concat('http://parliament.yurukov.net/data/pgroup/pgroup_',$id,'.xml')"/>
+						<xsl:value-of select="concat('http://parliament.yurukov.net/data/pdeleg/pdeleg_',$id,'.xml')"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="concat('http://parliament.yurukov.net/data/pgroup/pgroup_',$id,'_',$date-file,'.xml')"/>
+						<xsl:value-of select="concat('http://parliament.yurukov.net/data/pdeleg/pdeleg_',$id,'_',$date-file,'.xml')"/>
 					</xsl:otherwise>
 				</xsl:choose>
-			</ParliamentGroupUpdateUrl>
+			</ParliamentDelegationUpdateUrl>
 		</Update>
-	</xsl:template>
-	<xsl:template match="div[@class='MProw']">
-		<Bill>
-			<xsl:variable name="id" select="substring(a/@href,14)"/>
-			<xsl:attribute name="id">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
-			<Name>
-				<xsl:value-of select="a"/>
-			</Name>
-			<DataUrl><xsl:value-of select="concat('http://parliament.yurukov.net/data/bill/bill_',$id,'.xml')"/></DataUrl>
-		</Bill>
 	</xsl:template>
 
 </xsl:stylesheet>
