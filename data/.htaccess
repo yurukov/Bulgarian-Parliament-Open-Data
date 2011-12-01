@@ -6,7 +6,7 @@
   AddEncoding gzip .gz
   AddType application/json .gz
 
-  <FilesMatch "\.xml\.gz$">
+  <FilesMatch "\.xml\.gz|\.xsd\.gz$">
     ForceType 'text/xml; charset=UTF-8'
     FileETag None
   </FilesMatch>
@@ -19,7 +19,6 @@
   </FilesMatch>
   AddEncoding gzip .gz
   AddType application/csv .gz
-
 </IfModule>
 <IfModule mod_deflate.c>
   SetEnvIfNoCase Request_URI \.gz$ no-gzip
@@ -41,6 +40,7 @@ RewriteEngine On
 RewriteBase /data
 RewriteCond %{HTTP:Accept-Encoding} gzip
 RewriteRule (model|raw)?(.*)(\.json|\.xml|\.csv)$ gz/$2$3\.gz
+RewriteRule (.*)(\.xsd)$ $1$2\.gz
 RewriteRule data\.zip$ gz/data\.zip [L]
 
 </IfModule>

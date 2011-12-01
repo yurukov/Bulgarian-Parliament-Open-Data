@@ -29,7 +29,7 @@ init();
 //updateMPwithAbsense();
 
 //loadPGroups();
-transformAllPGroups();
+//transformAllPGroups();
 
 //loadPComms();
 //transformAllPComms();
@@ -50,7 +50,7 @@ transformAllPGroups();
 //updatePCommwithConsultants();
 
 //loadProcurements();
-transformAllProcurements();
+//transformAllProcurements();
 
 //loadAllBills();
 //transformAllBills();
