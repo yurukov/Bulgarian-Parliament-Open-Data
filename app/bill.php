@@ -89,8 +89,11 @@ function loadAllBills() {
 	if (!$maxId)
 		return;
 
+	initBillChangable();
+
 	echo "Loading bills... <br/>";
 	$i=0;
+	$j=0;
 	$minId=-1;
 	for ($id=5167; $id<=$maxId; $id++) {
 		if ($id>5230 && $id<8311) {
@@ -98,6 +101,10 @@ function loadAllBills() {
 			continue;
 		}
 
+		if (!isBillChangable($id)) {
+			$j++;
+			echo "~ ";
+		} else
 		if (loadBill($id)) {
 			if ($minId==-1)
 				$minId=$id;
@@ -105,8 +112,9 @@ function loadAllBills() {
 		}
 	}
 	echo "<br/>";
+	dumpBillChangable();
 
-	echo "Loaded $i out of $maxId. Min bill id is $minId.<br/>";
+	echo "Loaded $i out of $maxId. $j skipped. Min bill id is $minId.<br/>";
 
 	unset($all);
 }
@@ -116,12 +124,29 @@ function loadAllBills() {
 	UTILS
 */
 
+$_changeableBills=array();
+
 function setBillUnchangable($id) {
-	setUnchangable("bill/bill_$id.xml");
+	global $_changeableBills;
+	if (isBillChangable($id))
+		$_changeableBills[]=$id;
 }
 
 function isBillChangable($id) {
-	return isChangable("bill/bill_$id.xml");
+	global $_changeableBills;
+	return !in_array($id,$_changeableBills);
+}
+
+function initBillChangable() {
+	global $datafolder,$_changeableBills;
+	if (file_exists("$datafolder/raw/unchangableBill.csv"))
+		$_changeableBills=file("$datafolder/raw/unchangableBill.csv", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+}
+
+function dumpBillChangable() {
+	global $datafolder,$_changeableBills;
+	file_put_contents("$datafolder/raw/unchangableBill.csv",implode("\n",$_changeableBills));
+	unset($_changeableBills);
 }
 
 function getBillIds() {
@@ -163,13 +188,20 @@ function loadBill($id) {
 	$data = file_get_contents($url);
 	$data = trim($data);
 
-	if ($data==null || $data=="" ||
-		strpos($data,"<schema></schema>")!==false)
+	if ($data==null || $data=="" ||	strpos($data,"<schema></schema>")!==false)
 	{
+		setBillUnchangable($id);
 		echo "| ";
 		unset($data);
 		return false;	
 	}
+
+	preg_match("_<Date\s*value=\"(.+?)\" />_im",$data,$matches);
+
+	if (count($matches)!=2 || strtotime(str_replace("/",".",$matches[1]))<strtotime("-8 months")) {
+		setBillUnchangable($id);
+		echo "~";
+	} 
 
 	storeRawFile("bill/bill_$id.xml",$data);
 	echo ". ";

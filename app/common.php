@@ -4,11 +4,11 @@ ini_set('user_agent','Mozilla/5.0 (Windows NT 6.1; rv:10.0.1) Gecko/20100101 Fir
 
 set_error_handler('handleError');
 $datafolder="../data";
-$force_export=false;
+$force_export=true;
 
 function checkFolderStructure() {
 	$aspects = array("raw","model","gz");
-	$models = array("mp","absense","bill","consultant","pgroup","pcomm","pcommsit","pdeleg","pgfriend");
+	$models = array("mp","absense","bill","consultant","pgroup","pcomm","pcommsit","pdeleg","pgfriend","procurement");
 
 	foreach ($aspects as $aspect) {
 		checkFolder($aspect);

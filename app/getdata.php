@@ -11,6 +11,7 @@ require_once "pcomm.php";
 require_once "pcommsit.php";
 require_once "pdeleg.php";
 require_once "pgfriend.php";
+require_once "procurement.php";
 require_once "transform.php";
 
 echo "da, ama ne.<br/>";
@@ -28,7 +29,7 @@ init();
 //updateMPwithAbsense();
 
 //loadPGroups();
-//transformAllPGroups();
+transformAllPGroups();
 
 //loadPComms();
 //transformAllPComms();
@@ -47,6 +48,9 @@ init();
 //updateMPwithConsultants();
 //updatePGroupwithConsultants();
 //updatePCommwithConsultants();
+
+//loadProcurements();
+transformAllProcurements();
 
 //loadAllBills();
 //transformAllBills();

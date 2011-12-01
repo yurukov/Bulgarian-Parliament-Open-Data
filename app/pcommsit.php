@@ -103,7 +103,9 @@ function loadPCommSitPeriods($id) {
 	if (count($matches)!=2)
 		return "";
 
-	$currentPeriods=array(date("Y-n"), date("Y-n",strtotime("-1 month")), date("Y-n",strtotime("-2 month")), date("Y-n",strtotime("-3 month")));	
+	$currentPeriods=array();	
+	for ($i=1;$i>=-3;$i--)
+		$currentPeriods[]=date("Y-n",strtotime("$i month"));
 	$res=array();
 	foreach ($matches[1] as $reportPeriod) {
 		$isCurrent=in_array($reportPeriod,$currentPeriods);
@@ -123,6 +125,7 @@ function loadPCommSitPeriods($id) {
 			echo "~ ";
 		
 	}
+	unset($currentPeriods);
 }
 
 function loadPCommSit($id, $sitId) {

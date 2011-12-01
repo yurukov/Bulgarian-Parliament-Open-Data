@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="Absenses">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="PlenarySittings"/>
+        <xs:element ref="CommitteeMeetings"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="FriendshipGroups">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="FriendshipGroup"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MPs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="MP"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ParliamentCommitteeSittings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="ParliamentCommittee"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ParliamentCommittees">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="ParliamentCommittee"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ParliamentConsultants">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element maxOccurs="unbounded" ref="MP"/>
+        <xs:element maxOccurs="unbounded" ref="PGroup"/>
+        <xs:element maxOccurs="unbounded" ref="PCommittee"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PGroup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="FullName"/>
+        <xs:element ref="DataUrl"/>
+        <xs:element ref="Consultants"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PCommittee">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="FullName"/>
+        <xs:element ref="Consultants"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ParliamentDelegations">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="ParliamentDelegation"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ParliamentGroups">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="ParliamentGroup"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PublicProcurements">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="PublicProcurement"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ParliamentCommitteeSitting">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="ParliamentCommittee"/>
+        <xs:element ref="Reports"/>
+        <xs:element ref="AttendingMPs"/>
+        <xs:element ref="DateTime"/>
+        <xs:element ref="DiscussionPoints"/>
+        <xs:element ref="Location"/>
+        <xs:element ref="ParliamentCommitteeSittingUrl"/>
+        <xs:element ref="Transcript"/>
+      </xs:choice>
+      <xs:attribute name="attendingMPs" type="xs:integer"/>
+      <xs:attribute name="dateTime"/>
+      <xs:attribute name="discussionPoints" type="xs:integer"/>
+      <xs:attribute name="id" use="required" type="xs:integer"/>
+      <xs:attribute name="reports" type="xs:integer"/>
+      <xs:attribute name="transcript" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AttendingMPs">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MP"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DateTime" type="xs:string"/>
+  <xs:element name="DiscussionPoints">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="DiscussionPoint"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DiscussionPoint">
+    <xs:complexType mixed="true">
+      <xs:attribute name="order" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Location" type="xs:string"/>
+  <xs:element name="ParliamentCommitteeSittingUrl" type="xs:anyURI"/>
+  <xs:element name="Transcript" type="xs:anyURI"/>
+  <xs:element name="ParliamentCommittee">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="PCommName"/>
+        <xs:element ref="ParliamentCommitteeUrl"/>
+        <xs:sequence minOccurs="0">
+          <xs:element ref="ProfileUrl"/>
+          <xs:element ref="SittingsUrl"/>
+          <xs:element ref="Contact"/>
+          <xs:element ref="Members"/>
+        </xs:sequence>
+        <xs:element minOccurs="0" ref="Consultants"/>
+        <xs:choice minOccurs="0">
+          <xs:element ref="Sittings"/>
+          <xs:sequence>
+            <xs:element ref="Documents"/>
+            <xs:element ref="Bills"/>
+            <xs:element ref="Updates"/>
+          </xs:sequence>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="active" type="xs:integer"/>
+      <xs:attribute name="id" use="required" type="xs:integer"/>
+      <xs:attribute name="lastUpdate"/>
+      <xs:attribute name="type"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PCommName" type="xs:string"/>
+  <xs:element name="ParliamentCommitteeUrl" type="xs:anyURI"/>
+  <xs:element name="SittingsUrl" type="xs:anyURI"/>
+  <xs:element name="Contact">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Email"/>
+        <xs:element ref="Address"/>
+        <xs:element ref="Telephone"/>
+        <xs:element ref="ContactPerson"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Email" type="xs:string"/>
+  <xs:element name="Address" type="xs:string"/>
+  <xs:element name="Telephone" type="xs:string"/>
+  <xs:element name="ContactPerson" type="xs:string"/>
+  <xs:element name="Sittings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="ParliamentCommitteeSitting"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Documents">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Document"/>
+      </xs:sequence>
+      <xs:attribute name="count" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Document">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Name"/>
+        <xs:element ref="DataUrl"/>
+      </xs:sequence>
+      <xs:attribute name="uploaded" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ParliamentGroup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="PGroupName"/>
+        <xs:element ref="ParliamentGroupUrl"/>
+        <xs:element ref="ProfileUrl"/>
+        <xs:element ref="Members"/>
+        <xs:element minOccurs="0" ref="Consultants"/>
+        <xs:element ref="Bills"/>
+        <xs:element ref="Updates"/>
+      </xs:sequence>
+      <xs:attribute name="active" type="xs:integer"/>
+      <xs:attribute name="id" use="required" type="xs:integer"/>
+      <xs:attribute name="lastUpdate" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PGroupName" type="xs:string"/>
+  <xs:element name="ParliamentGroupUrl" type="xs:anyURI"/>
+  <xs:element name="Bills">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Bill"/>
+      </xs:sequence>
+      <xs:attribute name="count" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MP">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="FullName"/>
+        <xs:element minOccurs="0" ref="ProfileUrl"/>
+        <xs:element minOccurs="0" ref="DataUrl"/>
+        <xs:element minOccurs="0" ref="Role"/>
+        <xs:element minOccurs="0" ref="Profile"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="Consultants"/>
+          <xs:element ref="Absense"/>
+        </xs:choice>
+        <xs:sequence minOccurs="0">
+          <xs:element ref="ParliamentaryActivity"/>
+          <xs:element ref="Bills"/>
+          <xs:element ref="Speeches"/>
+          <xs:element ref="ParliamentaryControl"/>
+        </xs:sequence>
+      </xs:sequence>
+      <xs:attribute name="acting" type="xs:integer"/>
+      <xs:attribute name="id" use="required" type="xs:integer"/>
+      <xs:attribute name="otherProfiles"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Profile">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Names"/>
+        <xs:element ref="DateOfBirth"/>
+        <xs:element ref="PlaceOfBirth"/>
+        <xs:element ref="Profession"/>
+        <xs:element ref="Language"/>
+        <xs:element ref="ScienceDegree"/>
+        <xs:element ref="MaritalStatus"/>
+        <xs:element ref="PoliticalForce"/>
+        <xs:element ref="Constituency"/>
+        <xs:element ref="MemberOfPreviosNA"/>
+        <xs:element ref="E-mail"/>
+        <xs:element ref="Website"/>
+        <xs:element ref="ProfileUrl"/>
+        <xs:element ref="OriginalDataUrl"/>
+        <xs:element ref="DataUrl"/>
+        <xs:element ref="Photo"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Names">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="FirstName"/>
+        <xs:element ref="SirName"/>
+        <xs:element ref="FamilyName"/>
+        <xs:element ref="FullName"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="FirstName" type="xs:NCName"/>
+  <xs:element name="SirName" type="xs:NCName"/>
+  <xs:element name="FamilyName" type="xs:NCName"/>
+  <xs:element name="DateOfBirth" type="xs:string"/>
+  <xs:element name="PlaceOfBirth" type="xs:string"/>
+  <xs:element name="MaritalStatus" type="xs:NCName"/>
+  <xs:element name="PoliticalForce" type="xs:string"/>
+  <xs:element name="Constituency" type="xs:string"/>
+  <xs:element name="MemberOfPreviosNA">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="PreviosNA"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PreviosNA">
+    <xs:complexType mixed="true">
+      <xs:attribute name="order" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="E-mail" type="xs:string"/>
+  <xs:element name="Website" type="xs:string"/>
+  <xs:element name="Photo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Photo_big"/>
+        <xs:element ref="Photo_thumb"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Photo_big" type="xs:anyURI"/>
+  <xs:element name="Photo_thumb" type="xs:anyURI"/>
+  <xs:element name="Absense">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="PlenarySittings"/>
+        <xs:element ref="CommitteeMeetings"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ParliamentaryActivity">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="ParliamentaryStructure"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ParliamentaryStructure">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ParliamentaryStructureName"/>
+        <xs:element ref="ParliamentaryStructureType"/>
+        <xs:element ref="ParliamentaryStructurePosition"/>
+        <xs:element ref="ParliamentaryStructurePeriod"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ParliamentaryStructureName" type="xs:string"/>
+  <xs:element name="ParliamentaryStructureType" type="xs:string"/>
+  <xs:element name="ParliamentaryStructurePosition" type="xs:string"/>
+  <xs:element name="ParliamentaryStructurePeriod">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="From"/>
+        <xs:element ref="To"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="From" type="xs:string"/>
+  <xs:element name="Speeches">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Speech"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Speech">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Topic"/>
+        <xs:element ref="Type"/>
+        <xs:element ref="Date"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Topic" type="xs:string"/>
+  <xs:element name="Type" type="xs:string"/>
+  <xs:element name="ParliamentaryControl">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Question"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Question">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="About"/>
+        <xs:element ref="To"/>
+        <xs:element ref="Date"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="About" type="xs:string"/>
+  <xs:element name="FullName" type="xs:string"/>
+  <xs:element name="DataUrl" type="xs:string"/>
+  <xs:element name="Consultants">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="Consultant"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Consultant">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Name"/>
+        <xs:element ref="Education"/>
+        <xs:element ref="Field"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Education" type="xs:string"/>
+  <xs:element name="Field" type="xs:string"/>
+  <xs:element name="Bill">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="Name"/>
+        <xs:element minOccurs="0" ref="BillName"/>
+        <xs:element minOccurs="0" ref="BillUnion"/>
+        <xs:sequence minOccurs="0">
+          <xs:element ref="Signature"/>
+          <xs:element ref="Date"/>
+        </xs:sequence>
+        <xs:sequence minOccurs="0">
+          <xs:element ref="Session"/>
+          <xs:element ref="BillFiles"/>
+          <xs:element ref="Importers"/>
+        </xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Committee"/>
+        <xs:sequence minOccurs="0">
+          <xs:element ref="Reports"/>
+          <xs:element ref="LawName"/>
+          <xs:element ref="LawBody"/>
+          <xs:element ref="SGIss"/>
+          <xs:element ref="SGYear"/>
+          <xs:element ref="OriginalDataUrl"/>
+        </xs:sequence>
+        <xs:choice>
+          <xs:element ref="DataUrl"/>
+          <xs:element ref="ProfileURL"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="BillName" type="xs:string"/>
+  <xs:element name="BillUnion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="BillUnionName"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="BillUnionName" type="xs:string"/>
+  <xs:element name="Signature" type="xs:string"/>
+  <xs:element name="Session" type="xs:string"/>
+  <xs:element name="BillFiles">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="FilePath"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="FilePath" type="xs:anyURI"/>
+  <xs:element name="Importers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Importer"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Importer">
+    <xs:complexType mixed="true">
+      <xs:attribute name="order" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Committee">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Name"/>
+        <xs:element ref="Role"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LawName" type="xs:string"/>
+  <xs:element name="LawBody" type="xs:string"/>
+  <xs:element name="SGIss" type="xs:string"/>
+  <xs:element name="SGYear" type="xs:string"/>
+  <xs:element name="ProfileURL" type="xs:anyURI"/>
+  <xs:element name="ParliamentDelegation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="PDelegationName"/>
+        <xs:element ref="ParliamentDelegationUrl"/>
+        <xs:element ref="ProfileUrl"/>
+        <xs:element ref="Members"/>
+        <xs:element ref="Updates"/>
+      </xs:sequence>
+      <xs:attribute name="active" type="xs:integer"/>
+      <xs:attribute name="id" use="required" type="xs:integer"/>
+      <xs:attribute name="lastUpdate" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PDelegationName" type="xs:string"/>
+  <xs:element name="ParliamentDelegationUrl" type="xs:anyURI"/>
+  <xs:element name="PlenarySittings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Date"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CommitteeMeetings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Date"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="FriendshipGroup">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="PFriendshipGroupName"/>
+        <xs:element ref="FriendshipGroupUrl"/>
+        <xs:element ref="ProfileUrl"/>
+        <xs:element ref="Members"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PFriendshipGroupName" type="xs:string"/>
+  <xs:element name="FriendshipGroupUrl" type="xs:anyURI"/>
+  <xs:element name="PublicProcurement">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Title"/>
+        <xs:element ref="PublishDate"/>
+        <xs:element ref="Procedure"/>
+        <xs:element minOccurs="0" ref="StateGazetteIssue"/>
+        <xs:element ref="ProcurementRegistryNumber"/>
+        <xs:element ref="Description"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PublishDate" type="xs:string"/>
+  <xs:element name="Procedure" type="xs:string"/>
+  <xs:element name="StateGazetteIssue" type="xs:string"/>
+  <xs:element name="ProcurementRegistryNumber" type="xs:string"/>
+  <xs:element name="Description" type="xs:string"/>
+  <xs:element name="Reports">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Report"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="Author"/>
+          <xs:element ref="Path"/>
+        </xs:choice>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Report">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="Title"/>
+        <xs:element ref="ReportUrl"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReportUrl" type="xs:anyURI"/>
+  <xs:element name="Author" type="xs:string"/>
+  <xs:element name="Path" type="xs:anyURI"/>
+  <xs:element name="ProfileUrl" type="xs:anyURI"/>
+  <xs:element name="Members">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MP"/>
+      </xs:sequence>
+      <xs:attribute name="count" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Name" type="xs:string"/>
+  <xs:element name="Updates">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Update"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Update">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="ParliamentDelegationUpdateUrl"/>
+        <xs:element ref="ParliamentGroupUpdateUrl"/>
+      </xs:choice>
+      <xs:attribute name="date" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ParliamentDelegationUpdateUrl" type="xs:anyURI"/>
+  <xs:element name="ParliamentGroupUpdateUrl" type="xs:anyURI"/>
+  <xs:element name="Role">
+    <xs:complexType mixed="true">
+      <xs:attribute name="from"/>
+      <xs:attribute name="to"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Profession">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Profession"/>
+      </xs:sequence>
+      <xs:attribute name="order" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Language">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="Language"/>
+      </xs:sequence>
+      <xs:attribute name="order" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ScienceDegree">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="ScienceDegree"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OriginalDataUrl" type="xs:anyURI"/>
+  <xs:element name="To" type="xs:string"/>
+  <xs:element name="Date">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="MP"/>
+      </xs:sequence>
+      <xs:attribute name="timestamp"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Title" type="xs:string"/>
+</xs:schema>
