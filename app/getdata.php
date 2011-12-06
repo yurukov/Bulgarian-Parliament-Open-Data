@@ -12,9 +12,10 @@ require_once "pcommsit.php";
 require_once "pdeleg.php";
 require_once "pgfriend.php";
 require_once "procurement.php";
+require_once "plenaryst.php";
 require_once "transform.php";
 
-echo "da, ama ne.<br/>";
+echo "da, ama ne.<br/>\n";
 
 try {
 
@@ -56,11 +57,14 @@ init();
 //transformAllBills();
 //aggregateBills();
 
+//loadAllPlenaryst();
+//transformAllPlenaryst();
+
 //packData();
 
 destroy();
 
 } catch (ErrorException $e) {
-    echo "Error:".$e->getMessage();
+    echo "Error:".$e->getMessage()." in ".$e->getFile().":".$e->getLine()."\n";
 }
 ?>

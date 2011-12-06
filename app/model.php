@@ -40,9 +40,9 @@ function storeGzFile($name, $data) {
 function isChanged($name) {
 	global $force_export, $datafolder;
 	return $force_export || 
-		(file_exists("$datafolder/raw/$name") && 
-		file_exists("$datafolder/gz/$name.gz") &&
-		filectime("$datafolder/raw/$name")>filectime("$datafolder/gz/$name.gz"));
+		!file_exists("$datafolder/model/$name") ||
+		!file_exists("$datafolder/raw/$name") ||
+		filectime("$datafolder/raw/$name")>filectime("$datafolder/model/$name");
 }
 
 function isChangable($name) {
@@ -89,7 +89,9 @@ function formatXML($data) {
 	$xml->xmlStandalone=true;
 	$xml->formatOutput=true;
 	formatXMLNode($xml->firstChild);
-	return $xml->saveXML();
+	$res = $xml->saveXML();
+	unset($xml);
+	return $res;
 }
 
 function formatXMLNode($node) {

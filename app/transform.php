@@ -1,5 +1,7 @@
 <?php
 
+$_templates = array();
+
 function transformS($style, $doc, $param=false) {
 	global $datafolder;
 	$doc = "$datafolder/raw/$doc";
@@ -16,20 +18,26 @@ function transformS($style, $doc, $param=false) {
 }
 
 function transform($style, $doc, $param=false) {
-	
+	global $_templates;
+
 	$XML = new DOMDocument('1.0', 'utf-8'); 
 	$XML->loadXML( $doc ); 
-
+	if (!isset($_templates[$style])) {
+		$_templates[$style] = new DOMDocument('1.0', 'utf-8'); 
+		$_templates[$style]->load( $style ); 
+	}
 	$xslt = new XSLTProcessor(); 
-	$XSL = new DOMDocument('1.0', 'utf-8'); 
-	$XSL->load( $style ); 
-	$xslt->importStylesheet( $XSL ); 
+	$xslt->importStylesheet( $_templates[$style] ); 
 
 	if ($param)
 		foreach($param as $name=>$value)
 			$xslt->setParameter('', $name, $value);
 
-	return $xslt->transformToXML( $XML ); 
+	$res = $xslt->transformToXML( $XML ); 
+
+	unset($XML);
+	unset($xslt);
+	return $res;
 }
 	
 
