@@ -8,7 +8,7 @@ $force_export=false;
 
 function checkFolderStructure() {
 	$aspects = array("raw","model","gz");
-	$models = array("mp","absense","bill","consultant","pgroup","pcomm","pcommsit","pdeleg","pgfriend","procurement","plenaryst");
+	$models = array("mp","absense","bill","consultant","pgroup","pcomm","pcommsit","pdeleg","pgfriend","procurement","plenaryst","vote");
 
 	foreach ($aspects as $aspect) {
 		checkFolder($aspect);

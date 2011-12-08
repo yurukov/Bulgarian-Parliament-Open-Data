@@ -1,0 +1,23 @@
+img {
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(...);
+}
+#navcontainer ul 
+{	
+	margin-left: 0px;
+}
+#newsbar
+{
+	width:974px;
+	padding:0px;
+	margin:0px;
+}
+#news
+{		
+	margin-left:-20px;
+	margin-top:-20px;
+}
+
+#news2
+{	
+	 background-image: url(none);
+}

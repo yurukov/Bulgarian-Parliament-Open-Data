@@ -11,5 +11,7 @@ The data included is as follows:
 - Parliament delegations - members, changes of members over time
 - Parliament friendship groups - members
 - Parliament procruement data - all public procurement requests with dates, description and registry numbers
+- Plenary transcripts, agenda and parliamentary control. 
+- Votes during plenary sessions for each MP and each topic in the agenda. 
 
 All these are remixed and linked. The included XSD describes the data. There is a number of lists that link to individual MP profiles or bill files. These lists are sorted in various ways. Please rever to index.html for a general guide.

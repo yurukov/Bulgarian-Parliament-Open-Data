@@ -1,0 +1,17 @@
+Options All -Indexes
+
+<IfModule mod_mime.c>
+  <FilesMatch "(\.jpg|\.jpeg|\.gif|\.png)$">
+    FileETag None
+  </FilesMatch>
+</IfModule>
+<IfModule mod_headers.c>
+  Header set Vary "Accept-Encoding, Cookie"
+  Header set Cache-Control 'max-age=300, must-revalidate'
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "modification plus 2 year"
+  ExpiresByType image/png "modification plus 2 year"
+  ExpiresByType image/gif "modification plus 2 year"
+</IfModule>

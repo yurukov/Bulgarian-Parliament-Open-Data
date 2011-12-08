@@ -20,6 +20,7 @@
   AddEncoding gzip .gz
   AddType application/csv .gz
 </IfModule>
+
 <IfModule mod_deflate.c>
   SetEnvIfNoCase Request_URI \.gz$ no-gzip
 </IfModule>
@@ -35,12 +36,10 @@
 </IfModule>
 
 <IfModule mod_rewrite.c>
-Options +FollowSymlinks
+Options +FollowSymlinks -Indexes
 RewriteEngine On
 RewriteBase /data
 RewriteCond %{HTTP:Accept-Encoding} gzip
-RewriteRule (model|raw)?(.*)(\.json|\.xml|\.csv)$ gz/$2$3\.gz
-RewriteRule (.*)(\.xsd)$ $1$2\.gz
-RewriteRule data\.zip$ gz/data\.zip [L]
-
+RewriteRule ^(model)?(.*)(\.json|\.xml|\.csv)$ gz/$2$3\.gz
+RewriteRule ^(.*)(\.xsd)$ $1$2\.gz [L]
 </IfModule>

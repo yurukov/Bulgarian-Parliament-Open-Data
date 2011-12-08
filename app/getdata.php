@@ -13,6 +13,7 @@ require_once "pdeleg.php";
 require_once "pgfriend.php";
 require_once "procurement.php";
 require_once "plenaryst.php";
+require_once "vote.php";
 require_once "transform.php";
 
 echo "da, ama ne.<br/>\n";
@@ -60,7 +61,12 @@ init();
 //loadAllPlenaryst();
 //transformAllPlenaryst();
 
+//loadVoteExcels();
+//transformVotes();
+//transformVoteList();
+
 //packData();
+packData1();
 
 destroy();
 

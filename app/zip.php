@@ -1,7 +1,17 @@
 <?php
 
+function packData1() {
+	global $datafolder;
+	set_time_limit(9000);
+
+	system("cd '$datafolder';zip -r -9 data.zip xsd -x *.gz; cd model; zip -r -9 ../data.zip * -x plenaryst/*");
+	echo "<br/>\nDone";
+}
+
 function packData() {
 	global $datafolder;
+	set_time_limit(9000);
+
 	$files=getFilesAll();
 	echo "Found ".count($files)." files.<br/>";
 
@@ -41,7 +51,7 @@ function createZip($files = array(),$destination = '') {
 	$valid_files = array();
 	if(is_array($files))
 		foreach($files as $file)
-			if(file_exists($file))
+			if(file_exists($file) && strpos($file,"plenaryst/")==false && strpos($file,"vote/")==false)
 				$valid_files[] = $file;
 
 	if(count($valid_files)) {

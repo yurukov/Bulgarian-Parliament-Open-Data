@@ -61,7 +61,7 @@
 					<xsl:attribute name="type">
 						<xsl:value-of select="substring(a/@href,21)"/>
 					</xsl:attribute>
-					<xsl:value-of select="concat('http://parliament.yurukov.net',a/@href)"/>
+					<xsl:value-of select="concat('http://www.parliament.bg',a/@href)"/>
 				</File>
 			</xsl:for-each>
 		</Document>
