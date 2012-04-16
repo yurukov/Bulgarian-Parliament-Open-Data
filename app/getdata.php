@@ -1,5 +1,6 @@
 <?php
 require_once "common.php";
+require_once "db.php";
 require_once "model.php";
 require_once "zip.php";
 require_once "mp.php";
@@ -16,57 +17,76 @@ require_once "plenaryst.php";
 require_once "vote.php";
 require_once "transform.php";
 
-echo "da, ama ne.<br/>\n";
+header("Content-type: text/html; charset=utf-8");
 
 try {
 
 init();
 
-//loadAllMPs();
-//loadCurrentMPs();
-//transformAllMPs();
+if (isset($_GET['stage1'])) {
 
-//loadAllAbsense();
-//transformAllAbsense();
-//updateMPwithAbsense();
+//	loadAllMPs();
+	loadCurrentMPs();
+	transformAllMPs();
 
-//loadPGroups();
-//transformAllPGroups();
+} else if (isset($_GET['stage2'])) {
 
-//loadPComms();
-//transformAllPComms();
+	loadAllAbsense();
+	transformAllAbsense();
+	updateMPwithAbsense();
 
-//loadPCommSits();
-//transformAllPCommSits();
+} else if (isset($_GET['stage3'])) {
 
-//loadPDeleg();
-//transformAllPDelegs();
+	loadPGroups();
+	transformAllPGroups();
+	loadPComms();
+	transformAllPComms();
+	loadPCommSits();
+	transformAllPCommSits();
+	loadPDeleg();
+	transformAllPDelegs();
+	loadPGFriend();
+transformAllPGFriends();
 
-//loadPGFriend();
-//transformAllPGFriends();
+} else if (isset($_GET['stage4'])) {
 
-//loadAllConsultants();
-//transformAllConsultants();
-//updateMPwithConsultants();
-//updatePGroupwithConsultants();
-//updatePCommwithConsultants();
+	loadAllConsultants();
+	transformAllConsultants();
+	updateMPwithConsultants();
+	updatePGroupwithConsultants();
+	updatePCommwithConsultants();
 
-//loadProcurements();
-//transformAllProcurements();
+} else if (isset($_GET['stage5'])) {
 
-//loadAllBills();
-//transformAllBills();
-//aggregateBills();
+	loadProcurements();
+	transformAllProcurements();
 
-//loadAllPlenaryst();
-//transformAllPlenaryst();
+} else if (isset($_GET['stage6'])) {
+
+	loadAllBills();
+	transformAllBills();
+	aggregateBills();
+
+} else if (isset($_GET['stage7']) or true) {
+
+	//loadAllPlenaryst();
+	transformAllPlenaryst();
+
+} else if (isset($_GET['stage8'])) {
+	packData1();
+}
 
 //loadVoteExcels();
 //transformVotes();
 //transformVoteList();
 
+//connectDB();
+//sqlMPs();
+//sqlVotes();
+//mysql_close();
+
 //packData();
-packData1();
+//packData1();
 
 destroy();
 

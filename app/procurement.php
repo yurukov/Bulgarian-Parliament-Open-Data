@@ -111,6 +111,7 @@ function loadProcurement($id, $date) {
 		return;
 	$data = $matches[1];
 	$data = str_replace(array("<hr>","<br>","&nbsp;","\r","\n")," ",$data);
+	$data = str_replace("&","&amp;",$data);
 	$data = preg_replace("_\s+_ims"," ",$data);
 	$data = "<div id='$id' date='$date'>$data";
 	storeRawFile("procurement/procurement_$id.xml",$data);

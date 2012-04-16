@@ -1,0 +1,33 @@
+<script>
+progress=0;
+
+function move() {
+	if (progress==0)
+		return;
+	else
+	if (progress>=8) {
+		document.getElementById('info').innerHTML='Done.';
+	} else {
+		document.getElementById('temp').src='getdata.php?stage'+progress; 
+		document.getElementById('info').innerHTML='Stage: '+progress;
+		progress++;
+	}
+}
+</script>
+
+<div id="info"><a href="javascript:;" onclick="progress++; move();">Start</a></div>
+
+<a href="getdata.php?stage1" target="temp">1</a>, 
+<a href="getdata.php?stage2" target="temp">2</a>, 
+<a href="getdata.php?stage3" target="temp">3</a>, 
+<a href="getdata.php?stage4" target="temp">4</a>, 
+<a href="getdata.php?stage5" target="temp">5</a>, 
+<a href="getdata.php?stage6" target="temp">6</a>, 
+<a href="getdata.php?stage7" target="temp">7</a>, 
+<a href="getdata.php?stage8" target="temp">8</a>
+<br/><br/>
+
+<iframe id="temp" name="temp" width="100%" height="500px" onload="move();"></iframe>
+
+
+

@@ -37,6 +37,7 @@ function transformVotes() {
 	echo "Transforming csv vote files... <br/>\n";
 	for ($i=0;$i<count($list);$i++) {
 		$id=substr($list[$i],strlen("$datafolder/raw/vote/iv"),-4);
+		$id="020611";
 		$data = transformCsv2Xml($id);
 		storeRawFile("vote/iv$id.xml",$data);
 		$transformed = transform("xsl/vote.xsl",$data);
@@ -44,6 +45,7 @@ function transformVotes() {
 		echo ".";
 		unset($data);
 		unset($transformed);
+		exit;
 	}
 	echo "<br/>\nDone.<br/>\n";
 	unset($list);
