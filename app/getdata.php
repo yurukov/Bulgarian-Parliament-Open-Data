@@ -67,9 +67,9 @@ transformAllPGFriends();
 	transformAllBills();
 	aggregateBills();
 
-} else if (isset($_GET['stage7']) or true) {
+} else if (isset($_GET['stage7'])) {
 
-	//loadAllPlenaryst();
+	loadAllPlenaryst();
 	transformAllPlenaryst();
 
 } else if (isset($_GET['stage8'])) {
